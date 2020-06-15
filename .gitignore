@@ -1,4 +1,2 @@
-node_modules
-dist
+.deno_plugins
 .env
-caches
