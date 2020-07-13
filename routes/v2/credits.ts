@@ -1,18 +1,14 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
+import { cache } from "../../util/cacheManager.ts";
 
 export const handler = async (ctx: RouterContext) => {
-	//@ts-ignore
-	console.log(this);
-
-	const cacheManager: any = "cum";
-
 	if (ctx.params.id) {
-		const user = cacheManager
+		const user = cache
 			.get("credits")
 			.find((c: any) => c.userId === ctx.params.id);
 		if (!user) {
 			ctx.response.status = 404;
-			ctx.response.body = { error: 2, message: "User not found." };
+			ctx.response.body = { error: 1, message: "User not found." };
 			return;
 		}
 		ctx.response.status = 200;
@@ -20,7 +16,7 @@ export const handler = async (ctx: RouterContext) => {
 		return;
 	}
 
-	ctx.response.body = cacheManager.get("credits");
+	ctx.response.body = cache.get("credits");
 	ctx.response.status = 200;
 };
 

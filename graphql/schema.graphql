@@ -1,0 +1,232 @@
+type Versions {
+	api: String
+	app: String
+	extension: String
+	bot: String
+	linux: String
+}
+
+type Ticket {
+	ticketId: String
+	userId: String
+	ticketMessage: String
+	timestamp: Int
+	attachementMessage: String
+	created: Int
+	accepter: String
+	status: Int
+	supportChannel: String
+	supportEmbed: String
+	supporters: [String]
+	lastUserMessage: Int
+	messages: [Message]
+}
+
+type Message {
+	userId: String
+	content: String
+	sent: Int
+}
+
+type Sponsor {
+	name: String
+	description: String
+	image: String
+	tString: String
+}
+
+type Science {
+	users: Int
+}
+
+type Presence {
+	url: String
+	metadata: PresenceMetadata
+	presenceJs: String
+	iframeJs: String
+	users: [Int]
+}
+
+type PresenceMetadata {
+	author: PresenceMetadataUserType
+	contributors: [PresenceMetadataUserType]
+	altnames: [String]
+	service: String
+
+	description: PresenceMetadataDescriptionLine
+	url: ArrayOrString
+
+	version: String
+	logo: String
+	thumbnail: String
+	color: String
+	tags: [String]
+	category: String
+	iframe: String
+	regExp: String
+	iframeRegExp: String
+	button: Boolean
+	warning: Boolean
+
+	settings: String
+}
+
+scalar PresenceMetadataDescriptionLine
+
+type PresenceMetadataUserType {
+	id: String
+	name: String
+}
+
+type Partner {
+	name: String
+	description: String
+	image: String
+	tString: String
+	storeName: String
+}
+
+type LanguageFile {
+	lang: String
+	project: String
+	translations: String
+}
+
+scalar Translations
+
+type Job {
+	available: Boolean
+	bonusPoints: [String]
+	jobIcon: String
+	jobName: String
+	questions: [JobQuestion]
+	requirements: [String]
+	tasks: [String]
+}
+
+type JobQuestion {
+	id: String
+	question: String
+	required: Boolean
+}
+
+type Downloads {
+	releaseType: String
+	appLinks: [String]
+	extLinks: [DownloadLink]
+}
+
+type DownloadLink {
+	platform: String
+	link: String
+}
+
+type DiscordUser {
+	avatar: String
+	created: Int
+	userId: String
+	username: String
+	discriminator: String
+}
+
+type Credits {
+	user: CreditUser
+	roles: [Role]
+	highestRole: Role
+}
+
+type Role {
+	name: String
+}
+
+type CreditUser {
+	id: String
+	name: String
+	tag: String
+	avatar: String
+	status: String
+	flags: [String]
+	premium_since: String
+	role: String
+	roleId: String
+	roleColor: String
+	rolePosition: String
+}
+
+type Changelog {
+	version: String
+	type: String
+	string: String
+	urls: [String]
+	project: String
+}
+
+type Benefit {
+	description: String
+	icon: String
+	title: String
+}
+
+type Application {
+	type: String
+	userId: String
+	reviewed: Boolean
+	position: JobPosition
+	reviewers: [JobReview]
+}
+
+type JobPosition {
+	name: String
+	questions: [AppQuestion]
+}
+
+type AppQuestion {
+	id: String
+	question: String
+	required: Boolean
+	label: String
+	response: String
+}
+
+type JobReview {
+	userId: String
+	accepted: Boolean
+	reviewedAt: Int
+}
+
+type AddReviewResult {
+	userId: String
+	accepted: Boolean
+}
+
+type Query {
+	applications(userId: String, token: String!): [Application]
+	benefits: [Benefit]
+	changelog(version: String): [Changelog]
+	credits(id: String, limit: Int, random: Boolean): [Credits]
+	discordUsers(userId: String): [DiscordUser]
+	downloads(releaseType: String): [Downloads]
+	jobs: [Job]
+	langFiles(lang: String, project: String): [LanguageFile]
+	partners: [Partner]
+	presences(
+		service: String
+		author: String
+		contributor: String
+		start: Int
+		limit: Int
+		query: String
+		tag: String
+		altnames: ArrayOrString
+	): [Presence]
+	science: Science
+	sponsors: [Sponsor]
+	tickets(userId: String): [Ticket]
+	versions: Versions
+}
+
+type Mutation {
+	addReview(accepted: Boolean!, userId: String!): AddReviewResult
+}
+
+scalar ArrayOrString

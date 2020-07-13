@@ -1,0 +1,26 @@
+{
+	"$schema": "https://deno.land/x/denon/schema.json",
+
+	"env": {
+		"DENO_ENV": "development"
+	},
+
+	"logger": {
+		"quiet": true
+	},
+
+	"watcher": {
+		"exts": ["ts", "json", "graphql"],
+		"skip": ["*/.git/*", ".cache/**/*", ".deno_plugins/*"]
+	},
+
+	"unstable": true,
+
+	"allow": ["all"],
+
+	"scripts": {
+		"dev": {
+			"cmd": "deno run index.ts"
+		}
+	}
+}

@@ -1,2 +1,5 @@
 .deno_plugins
 .env
+.cache
+
+old
