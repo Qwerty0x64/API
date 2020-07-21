@@ -2,7 +2,7 @@ import { cache } from "../../util/cacheManager.ts";
 import searchStringToObject from "../../util/functions/searchStringToObject.ts";
 import { GQLError } from "https://deno.land/x/oak_graphql/mod.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
-import { mongo } from "../../util/mongoConnection.ts";
+import { mongo } from "../../index.ts";
 
 export default async function (
 	parent: any,

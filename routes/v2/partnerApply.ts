@@ -1,18 +1,17 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { cache } from "../../util/cacheManager.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
-import { mongo } from "../../util/mongoConnection.ts";
+import { mongo } from "../../index.ts";
 
 export const handler = async (ctx: RouterContext) => {
-	let bodyData = await ctx.request.body();
+	let bodyData = await ctx.request.body().value!;
 
 	if (
-		!bodyData.value.type ||
-		!bodyData.value.name ||
-		!bodyData.value.link ||
-		!bodyData.value.description ||
-		!bodyData.value.imageLink ||
-		!bodyData.value.token
+		!bodyData.type ||
+		!bodyData.name ||
+		!bodyData.link ||
+		!bodyData.description ||
+		!bodyData.imageLink ||
+		!bodyData.token
 	) {
 		ctx.response.status = 400;
 		ctx.response.body = {
@@ -23,7 +22,7 @@ export const handler = async (ctx: RouterContext) => {
 	}
 
 	try {
-		const dUser = await getDiscordUser(bodyData.value.token);
+		const dUser = await getDiscordUser(bodyData.token);
 
 		if (
 			Object.keys(
@@ -44,11 +43,11 @@ export const handler = async (ctx: RouterContext) => {
 			type: "partner",
 			userId: dUser.id,
 			reviewed: false,
-			pType: bodyData.value.type,
-			name: bodyData.value.name,
-			link: bodyData.value.link,
-			description: bodyData.value.description,
-			imageLink: bodyData.value.imageLink
+			pType: bodyData.type,
+			name: bodyData.name,
+			link: bodyData.link,
+			description: bodyData.description,
+			imageLink: bodyData.imageLink
 		});
 
 		let webhookURL = `https://discordapp.com/api/webhooks/${Deno.env.get(
@@ -57,27 +56,27 @@ export const handler = async (ctx: RouterContext) => {
 
 		let embeds = [
 			{
-				title: `Partner Application (${bodyData.value.type})`,
+				title: `Partner Application (${bodyData.type})`,
 				description: `By <@${dUser.id}>`,
 				fields: [
 					{
 						name: "Type",
-						value: bodyData.value.type,
+						value: bodyData.type,
 						inline: false
 					},
 					{
 						name: "Name",
-						value: bodyData.value.name,
+						value: bodyData.name,
 						inline: false
 					},
 					{
 						name: "URL",
-						value: bodyData.value.link,
+						value: bodyData.link,
 						inline: false
 					},
 					{
 						name: "Description",
-						value: bodyData.value.description,
+						value: bodyData.description,
 						inline: false
 					}
 				],
@@ -85,7 +84,7 @@ export const handler = async (ctx: RouterContext) => {
 					url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}.png`
 				},
 				image: {
-					url: bodyData.value.imageLink
+					url: bodyData.imageLink
 				}
 			}
 		];

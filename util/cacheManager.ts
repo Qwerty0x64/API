@@ -1,7 +1,7 @@
 import CacheManager from "../classes/CacheManager.ts";
-import { mongo } from "./mongoConnection.ts";
 import log from "./functions/log.ts";
 import { yellow, green, cyan } from "https://deno.land/std/fmt/colors.ts";
+import { mongo } from "../index.ts";
 
 let cacheUpdater: number;
 

@@ -1,5 +1,5 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { mongo } from "../../util/mongoConnection.ts";
+import { mongo } from "../../index.ts";
 
 export const handler = async (ctx: RouterContext) => {
 	if (!ctx.params.userId)

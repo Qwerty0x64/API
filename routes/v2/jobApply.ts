@@ -1,12 +1,11 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { cache } from "../../util/cacheManager.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
-import { mongo } from "../../util/mongoConnection.ts";
+import { mongo } from "../../index.ts";
 
 export const handler = async (ctx: RouterContext) => {
-	let bodyData = await ctx.request.body();
+	let bodyData = await ctx.request.body().value;
 
-	if (!bodyData.value.token || !bodyData.value.questions) {
+	if (!bodyData.token || !bodyData.questions) {
 		ctx.response.status = 400;
 		ctx.response.body = {
 			error: 1,
@@ -16,7 +15,7 @@ export const handler = async (ctx: RouterContext) => {
 	}
 
 	try {
-		const dUser = await getDiscordUser(bodyData.value.token);
+		const dUser = await getDiscordUser(bodyData.token);
 
 		if (
 			Object.keys(
@@ -38,8 +37,8 @@ export const handler = async (ctx: RouterContext) => {
 			userId: dUser.id,
 			reviewed: false,
 			position: {
-				name: bodyData.value.position,
-				questions: bodyData.value.questions
+				name: bodyData.position,
+				questions: bodyData.questions
 			}
 		});
 
@@ -49,9 +48,9 @@ export const handler = async (ctx: RouterContext) => {
 
 		let embeds = [
 			{
-				title: `Job Application (${bodyData.value.position})`,
+				title: `Job Application (${bodyData.position})`,
 				description: `By <@${dUser.id}>`,
-				fields: bodyData.value.questions.map((q: any) => {
+				fields: bodyData.questions.map((q: any) => {
 					return {
 						name: q.label,
 						value: q.response ? q.response : "No response."

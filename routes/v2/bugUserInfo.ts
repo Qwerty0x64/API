@@ -1,8 +1,7 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { cache } from "../../util/cacheManager.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
-import { mongo } from "../../util/mongoConnection.ts";
 import DiscordUser from "../../@types/DiscordUser.d.ts";
+import { mongo } from "../../index.ts";
 
 let bugs: Array<any> = [];
 

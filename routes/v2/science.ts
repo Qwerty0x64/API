@@ -1,5 +1,5 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { mongo } from "../../util/mongoConnection.ts";
+import { mongo } from "../../index.ts";
 
 let queue: { identifier: string; data: any }[] = [];
 
@@ -25,7 +25,7 @@ setInterval(async () => {
 }, 60 * 1000);
 
 export const handler = async (ctx: RouterContext) => {
-	let bodyData = (await ctx.request.body()).value;
+	let bodyData = await ctx.request.body().value!;
 
 	if (
 		!bodyData.identifier ||

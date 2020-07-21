@@ -2,12 +2,19 @@ import "https://deno.land/x/denv/mod.ts";
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { Snelm } from "https://deno.land/x/snelm/mod.ts";
 import loadRoutes from "./util/functions/loadRoutes.ts";
-import { mongo } from "./util/mongoConnection.ts";
 import { applyGraphQL, gql } from "https://deno.land/x/oak_graphql/mod.ts";
 import { prepareCache } from "./util/cacheManager.ts";
 import { green, cyan, yellow } from "https://deno.land/std/fmt/colors.ts";
 import log from "./util/functions/log.ts";
 import loadResolver from "./util/functions/loadResolver.ts";
+
+//import { MongoClient } from "https://raw.githubusercontent.com/Timeraa/deno-node-mongo/master/mod.ts";
+import { MongoClient } from "../../Deno/mongo/mod.ts";
+
+export const mongo = new MongoClient(Deno.env.get("MONGO_URL")!, {
+	useUnifiedTopology: true,
+	appname: "PreMiD-API"
+});
 
 export const server = new Application(),
 	router = new Router();

@@ -1,15 +1,18 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
-import { mongo } from "../../util/mongoConnection.ts";
 import DiscordUser from "../../@types/DiscordUser.d.ts";
+import { mongo } from "../../index.ts";
 
 let bugInfo: any;
 
 export const handler = async (ctx: RouterContext) => {
-	let bodyData = (await ctx.request.body()).value;
+	let bodyData = await ctx.request.body().value;
 
-	if (!ctx.params.token)
-		return (ctx.response.body = { error: 1, message: "No token providen." });
+	if (!ctx.params.token) {
+		ctx.response.body = { error: 1, message: "No token providen." };
+		ctx.response.status = 449;
+		return;
+	}
 
 	if (!bodyData.brief || !bodyData.description) {
 		ctx.response.body = { error: 2, message: "Missing fields." };

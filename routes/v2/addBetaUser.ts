@@ -1,11 +1,10 @@
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
 import { cache } from "../../util/cacheManager.ts";
-import { mongo } from "../../util/mongoConnection.ts";
 import getDiscordUser from "../../util/functions/getDiscordUser.ts";
+import { mongo } from "../../index.ts";
 
 export const handler = async (ctx: RouterContext) => {
 	let betaUsers = cache.get("betaUsers");
-	let discordUsers = cache.get("discordUsers");
 
 	if (!ctx.params.token) {
 		ctx.response.body = { error: 1, message: "No token providen." };
