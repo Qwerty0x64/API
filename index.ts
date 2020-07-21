@@ -8,8 +8,7 @@ import { green, cyan, yellow } from "https://deno.land/std/fmt/colors.ts";
 import log from "./util/functions/log.ts";
 import loadResolver from "./util/functions/loadResolver.ts";
 
-//import { MongoClient } from "https://raw.githubusercontent.com/Timeraa/deno-node-mongo/master/mod.ts";
-import { MongoClient } from "../../Deno/mongo/mod.ts";
+import { MongoClient } from "https://raw.githubusercontent.com/Timeraa/deno-node-mongo/master/mod.ts";
 
 export const mongo = new MongoClient(Deno.env.get("MONGO_URL")!, {
 	useUnifiedTopology: true,
